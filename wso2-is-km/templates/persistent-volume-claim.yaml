@@ -1,0 +1,20 @@
+{{- if .Values.persistentVolume.pvcEnabled -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ template "self.fullname" . }}
+  labels:
+{{ include "self.labels" . | indent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.persistentVolume.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.persistentVolume.capacity.storage }}
+  storageClassName: {{ .Values.persistentVolume.capacity.storageClass }}
+  {{- if .Values.persistentVolume.pcvLabelSelectorModeEnabled -}}
+  selector:
+    matchLabels:
+      purpose: {{ .Values.persistentVolume.purpose }}
+  {{- end }}
+{{- end }}
