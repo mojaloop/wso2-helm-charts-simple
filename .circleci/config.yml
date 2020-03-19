@@ -65,8 +65,9 @@ defaults_publish_to_gh_pages: &defaults_publish_to_gh_pages
     cp -r repo ~/repo/branch
     cd ~/repo/branch/repo
     git add -A
-    git config --global user.email "cicd@modusbox.com"
-    git config --global user.name "CICD at ModusBox"
+    git config --global user.email "$GIT_CI_USER"
+    git config --global user.password "$GIT_CI_PASSWORD"
+    git config --global user.name "$GIT_CI_EMAIL"
     git commit -m "Automated deployment to GitHub Pages" --allow-empty
     GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git push origin gh-pages
 
