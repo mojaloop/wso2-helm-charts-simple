@@ -3,22 +3,22 @@ entries:
   wso2-am:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2020-03-20T14:14:41.983030648Z
+    created: 2020-03-20T14:33:36.36495412Z
     description: A Helm chart for Kubernetes install of wso2 API manager
-    digest: 5231c8470b5d6fdd89a949d73fd38af6731c60bf633dd88ca006c21d3889af8c
+    digest: acc5a397dd34b598eee6752741b8368fbc1fe5d41d039ce5df788b2c7b3ec38c
     name: wso2-am
     urls:
-    - wso2-am-2.0.3.tgz
-    version: 2.0.3
+    - wso2-am-2.0.4.tgz
+    version: 2.0.4
   wso2-is-km:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2020-03-20T14:14:41.983499239Z
+    created: 2020-03-20T14:33:36.365486524Z
     description: A Helm chart for Kubernetes install of wso2 identity server with
       key manager
-    digest: f3e51d7f1a2c1f2d828d126d887608daf4c8bd207bbe6cd1d464cd5603dbf913
+    digest: 02da2dda2d95956a6dab099c1109d8f3ff1c36327e288614b49371929d7e52dc
     name: wso2-is-km
     urls:
-    - wso2-is-km-2.0.3.tgz
-    version: 2.0.3
-generated: 2020-03-20T14:14:41.982376141Z
+    - wso2-is-km-2.0.4.tgz
+    version: 2.0.4
+generated: 2020-03-20T14:33:36.364252831Z
