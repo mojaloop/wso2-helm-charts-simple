@@ -33,64 +33,68 @@ spec:
         - {{ .Values.copyExtHostToEtcHosts.extHostName }}
       {{- end }}
       containers:
-        - name: {{ template "self.fullname" . }}
-          image: {{ $wso2DockerRepo }}:{{ .Values.image.tag }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.livenessProbe.enabled }}
-          livenessProbe:
-            tcpSocket:
-              port: {{ .Values.service.ports.wso2.targetPort }}
-            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+      - name: {{ template "self.fullname" . }}
+        image: {{ $wso2DockerRepo }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- if .Values.livenessProbe.enabled }}
+        livenessProbe:
+          tcpSocket:
+            port: {{ .Values.service.ports.wso2.targetPort }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.readinessProbe.enabled }}
+        readinessProbe:
+          tcpSocket:
+            port: {{ .Values.service.ports.wso2.targetPort }}
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+        {{- end }}
+        lifecycle:
+          preStop:
+            exec:
+              command:  ['sh', '-c', '${WSO2_SERVER_HOME}/bin/wso2server.sh stop']
+        ports:
+        {{- range $port := .Values.service.ports }}
+        {{- if $port.enabled }}
+          - name: {{ $port.name }}
+            containerPort: {{ $port.targetPort }}
+            sourcePort: {{ $port.internalPort }}
+        {{- end }}
+        {{- end }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "self.fullname" . }}
+        {{- with .Values.resources }}
+        resources:
+{{ toYaml . | indent 10 }}
+        {{- end }}
+        volumeMounts:
+        {{- if .Values.persistentVolume.pvcEnabled }}
+        - name: {{ template "self.fullname" . }}-storage-volume
+          mountPath: {{ $wso2AppHome }}/{{ .Values.persistentVolume.mountToSubPath }}
+          {{- if .Values.persistentVolume.subPathEnabled }}
+          subPath: {{ .Values.persistentVolume.subPath }}
           {{- end }}
-          {{- if .Values.readinessProbe.enabled }}
-          readinessProbe:
-            tcpSocket:
-              port: {{ .Values.service.ports.wso2.targetPort }}
-            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
-          {{- end }}
-          lifecycle:
-            preStop:
-              exec:
-                command:  ['sh', '-c', '${WSO2_SERVER_HOME}/bin/wso2server.sh stop']
-          ports:
-          {{- range $port := .Values.service.ports }}
-          {{- if $port.enabled }}
-            - name: {{ $port.name }}
-              containerPort: {{ $port.targetPort }}
-              sourcePort: {{ $port.internalPort }}
-          {{- end }}
-          {{- end }}
-          envFrom:
-          - configMapRef:
-              name: {{ template "self.fullname" . }}
-          volumeMounts:
-          {{- if .Values.persistentVolume.pvcEnabled }}
-          - name: {{ template "self.fullname" . }}-storage-volume
-            mountPath: {{ $wso2AppHome }}/{{ .Values.persistentVolume.mountToSubPath }}
-            {{- if .Values.persistentVolume.subPathEnabled }}
-            subPath: {{ .Values.persistentVolume.subPath }}
-            {{- end }}
-          {{- end }}
-          {{- if .Values.configmap.externalConfigMapVolMountEnabled }}
-          - name: {{ template "self.fullname" . }}-config-volume
-            readOnly: true
-            mountPath: "{{ .Values.configmap.wso2amConfigVolPath }}"
-          {{- end }}
-          {{- if .Values.secret.externalSecretVolMountEnabled }}
-          - name: {{ template "self.fullname" . }}-secret-volume
-            readOnly: true
-            mountPath: "{{ .Values.secret.wso2amSecretVolPath }}"
-          {{- end }}
-          {{- if .Values.binconfigmap.externalConfigMapVolMountEnabled }}
-          - name: {{ template "self.fullname" . }}-bin-volume
-            readOnly: true
-            mountPath: "{{ $wso2AppHome }}/bin/copyConfigs.sh"
-            subPath: "copyConfigs.sh"
-          {{- end }}         
+        {{- end }}
+        {{- if .Values.configmap.externalConfigMapVolMountEnabled }}
+        - name: {{ template "self.fullname" . }}-config-volume
+          readOnly: true
+          mountPath: "{{ .Values.configmap.wso2amConfigVolPath }}"
+        {{- end }}
+        {{- if .Values.secret.externalSecretVolMountEnabled }}
+        - name: {{ template "self.fullname" . }}-secret-volume
+          readOnly: true
+          mountPath: "{{ .Values.secret.wso2amSecretVolPath }}"
+        {{- end }}
+        {{- if .Values.binconfigmap.externalConfigMapVolMountEnabled }}
+        - name: {{ template "self.fullname" . }}-bin-volume
+          readOnly: true
+          mountPath: "{{ $wso2AppHome }}/bin/copyConfigs.sh"
+          subPath: "copyConfigs.sh"
+        {{- end }}         
       {{- if .Values.rbac.enabled }}      
       serviceAccountName: {{ template "self.fullname" . }}-{{ .Values.rbac.serviceAccount }}
       {{- end }}
@@ -117,10 +121,6 @@ spec:
         {{- end }}
       imagePullSecrets:
         - name: {{ .Values.config.pullSecret }}
-      {{- with .Values.resources }}
-      resources:
-{{ toYaml . | indent 8 }}
-      {{- end }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
