@@ -99,26 +99,26 @@ spec:
       serviceAccountName: {{ template "self.fullname" . }}-{{ .Values.rbac.serviceAccount }}
       {{- end }}
       volumes:
-        {{- if .Values.persistentVolume.pvcEnabled }}
-        - name: {{ template "self.fullname" . }}-storage-volume
-          persistentVolumeClaim:
-            claimName: {{ template "self.fullname" . }}
-        {{- end }}
-        {{- if .Values.secret.externalSecretVolMountEnabled }}
-        - name: {{ template "self.fullname" . }}-secret-volume
-          secret:
-            secretName: {{ .Values.secret.externalSecretName }}
-        {{- end }}
-        {{- if .Values.configmap.externalConfigMapVolMountEnabled }}
-        - name: {{ template "self.fullname" . }}-config-volume
-          configMap:
-            name: {{ .Values.configmap.externalConfigMapName }}
-        {{- end }}
-        {{- if .Values.binconfigmap.externalConfigMapVolMountEnabled }}
-        - name: {{ template "self.fullname" . }}-bin-volume
-          configMap:
-            name: {{ .Values.binconfigmap.externalConfigMapName }}
-        {{- end }}
+      {{- if .Values.persistentVolume.pvcEnabled }}
+      - name: {{ template "self.fullname" . }}-storage-volume
+        persistentVolumeClaim:
+          claimName: {{ template "self.fullname" . }}
+      {{- end }}
+      {{- if .Values.secret.externalSecretVolMountEnabled }}
+      - name: {{ template "self.fullname" . }}-secret-volume
+        secret:
+          secretName: {{ .Values.secret.externalSecretName }}
+      {{- end }}
+      {{- if .Values.configmap.externalConfigMapVolMountEnabled }}
+      - name: {{ template "self.fullname" . }}-config-volume
+        configMap:
+          name: {{ .Values.configmap.externalConfigMapName }}
+      {{- end }}
+      {{- if .Values.binconfigmap.externalConfigMapVolMountEnabled }}
+      - name: {{ template "self.fullname" . }}-bin-volume
+        configMap:
+          name: {{ .Values.binconfigmap.externalConfigMapName }}
+      {{- end }}
       imagePullSecrets:
         - name: {{ .Values.config.pullSecret }}
     {{- with .Values.nodeSelector }}
