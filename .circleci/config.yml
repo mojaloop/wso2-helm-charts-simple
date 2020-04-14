@@ -54,8 +54,8 @@ defaults_publish_to_gh_pages: &defaults_publish_to_gh_pages
     echo "Setting BASH_ENV..."
     source $BASH_ENV
     echo "Package helm charts..."
-    bash package.sh wso2-am $CIRCLE_TAG repo
-    bash package.sh wso2-is-km $CIRCLE_TAG repo
+    sh package.sh wso2-am $CIRCLE_TAG repo
+    sh package.sh wso2-is-km $CIRCLE_TAG repo
     mkdir -p ~/repo/branch
     GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone $CIRCLE_REPOSITORY_URL ~/repo/branch
     cd ~/repo/branch
