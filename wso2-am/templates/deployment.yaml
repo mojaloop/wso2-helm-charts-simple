@@ -24,7 +24,10 @@ spec:
       labels:
 {{ include "self.labels" . | indent 8 }}      
       annotations:  
-        checksum-confmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum | trunc 63 }}        
+        checksum-confmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum | trunc 63 }}
+        {{- with .Values.annotations }}
+        {{ toYaml . | indent 8 }}
+        {{- end }}
     spec:
       {{- if .Values.copyExtHostToEtcHosts.enabled }} 
       hostAliases:
@@ -103,6 +106,8 @@ spec:
         {{- end }}         
       {{- if .Values.rbac.enabled }}      
       serviceAccountName: {{ template "self.fullname" . }}-{{ .Values.rbac.serviceAccount }}
+      {{ else if .Values.externalServiceAccount.enabled }}
+      serviceAccountName: {{ .Values.externalServiceAccount.serviceAccountName }}
       {{- end }}
       volumes:
       {{- if .Values.persistentVolume.pvcEnabled }}

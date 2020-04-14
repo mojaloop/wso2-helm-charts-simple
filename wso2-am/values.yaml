@@ -4,7 +4,7 @@
 
 replicaCount: 1
 productName: wso2am
-productVersion: 2.5.0
+productVersion: 2.6.0
 wso2Home: /home/wso2carbon
 
 rollingUpdate:
@@ -41,7 +41,9 @@ service:
 rbac:
   serviceAccount: wso2svc-account
   enabled: false
-
+externalServiceAccount:
+  enabled: false
+  serviceAccountName: NAME
 config:
   pullSecret: dock-repo-secret
 # dependentServices:
@@ -113,3 +115,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+#annotations:
+  # vault.hashicorp.com/agent-inject: "true"
+  # vault.hashicorp.com/role: "VAULTROLE"
+  # vault.hashicorp.com/agent-inject-secret-secretfile.txt: "VAULTSECRETPATH"
