@@ -6,7 +6,7 @@ defaults_working_directory: &defaults_working_directory
 
 defaults_docker_node: &defaults_docker_node
   docker:
-    - image: alpine/helm:2.13.1
+    - image: alpine/helm:2.16.3
 
 defaults_Dependencies: &defaults_Dependencies
   name: Install default dependencies
