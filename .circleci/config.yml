@@ -63,6 +63,7 @@ defaults_publish_to_gh_pages: &defaults_publish_to_gh_pages
     cd -
     cp -r repo ~/repo/branch
     cd ~/repo/branch/repo
+    helm repo index .
     git add -A
     git config --global user.email "$GIT_CI_USER"
     git config --global user.password "$GIT_CI_PASSWORD"
