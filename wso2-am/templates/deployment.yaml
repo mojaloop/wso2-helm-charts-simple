@@ -26,7 +26,7 @@ spec:
       annotations:  
         checksum-confmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum | trunc 63 }}
         {{- with .Values.annotations }}
-        {{ toYaml . | indent 8 }}
+{{ toYaml . | indent 8 }}
         {{- end }}
     spec:
       {{- if .Values.copyExtHostToEtcHosts.enabled }} 
