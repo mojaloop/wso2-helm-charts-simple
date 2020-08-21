@@ -43,7 +43,6 @@ spec:
         securityContext:
           runAsUser: {{ .Values.persistentVolume.fsowner.userid }} 
           runAsGroup: {{ .Values.persistentVolume.fsowner.groupid }}
-          fsGroup: {{ .Values.persistentVolume.fsowner.groupid }}
         {{- end }}
         {{- if .Values.livenessProbe.enabled }}
         livenessProbe:
@@ -70,7 +69,6 @@ spec:
         {{- if $port.enabled }}
           - name: {{ $port.name }}
             containerPort: {{ $port.targetPort }}
-            sourcePort: {{ $port.internalPort }}
         {{- end }}
         {{- end }}
         envFrom:

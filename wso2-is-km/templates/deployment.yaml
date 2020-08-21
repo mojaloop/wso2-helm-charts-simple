@@ -61,7 +61,6 @@ spec:
         {{- if $port.enabled }}
           - name: {{ $port.name }}
             containerPort: {{ $port.targetPort }}
-            sourcePort: {{ $port.internalPort }}
         {{- end }}
         {{- end }}
         envFrom:
