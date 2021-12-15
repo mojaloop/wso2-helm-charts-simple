@@ -15,7 +15,9 @@ spec:
     {{- if $port.enabled }}    
     - port: {{ $port.externalPort }}
       targetPort: {{ $port.targetPort }}
+      {{- if eq .Values.service.type "NodePort" }}
       nodePort: {{ $port.internalPort }}
+      {{- end -}}
       protocol: TCP
       name: {{ $port.name }}
     {{- end -}}
