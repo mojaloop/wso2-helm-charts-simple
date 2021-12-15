@@ -78,6 +78,10 @@ jobs:
     steps:
       - checkout
       - run:
+          <<: *defaults_Dependencies
+      - run:
+          <<: *defaults_environment
+      - run:
           name: Placeholder for setup
           command: echo "Placeholder for setup - Nothing to do here"
 
