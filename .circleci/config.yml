@@ -40,9 +40,18 @@ defaults_slack_announcement: &defaults_slack_announcement
 defaults_git_identity_setup: &defaults_git_identity_setup
   name: Setup Git Identity
   command: |
+    
+    echo 'export GITHUB_TARGET_BRANCH=$HELM_TARGET_BRANCH' >> $BASH_ENV
+    echo 'export GITHUB_TOKEN=$GITHUB_TOKEN' >> $BASH_ENV
+    echo 'export GITHUB_PROJECT_USERNAME=$CIRCLE_PROJECT_USERNAME' >> $BASH_ENV
+    echo 'export GITHUB_PROJECT_REPONAME=$CIRCLE_PROJECT_REPONAME' >> $BASH_ENV
+    echo 'export GITHUB_TAG=$CIRCLE_TAG' >> $BASH_ENV
+    echo 'export GIT_CI_USER=$GIT_CI_USER' >> $BASH_ENV
+    echo 'export GIT_CI_EMAIL=$GIT_CI_EMAIL' >> $BASH_ENV
+    echo 'export GIT_SHA1=$CIRCLE_SHA1' >> $BASH_ENV
+    echo 'export BUILD_NUM=$CIRCLE_BUILD_NUM' >> $BASH_ENV
     echo "Setting BASH_ENV..."
     source $BASH_ENV
-
     git config --global user.email "$GIT_CI_USER"
     git config --global user.password "$GIT_CI_PASSWORD"
     git config --global user.name "$GIT_CI_EMAIL"
