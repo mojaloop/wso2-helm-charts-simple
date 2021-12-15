@@ -24,6 +24,6 @@ jobs:
         charts_dir: .
         charts_url: ./
         target_dir: repo
-        branch: repo
+        branch: gh-pages
         linting: off
         chart_version: ${{ env.app_release_version }}
