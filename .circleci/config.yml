@@ -87,6 +87,8 @@ jobs:
     steps:
       - run:
           <<: *defaults_Dependencies
+      - run:
+          <<: *defaults_git_identity_setup
       - checkout
       - run:
           <<: *defaults_environment
