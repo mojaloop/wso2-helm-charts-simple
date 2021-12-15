@@ -17,9 +17,9 @@ spec:
       targetPort: {{ $port.targetPort }}
       protocol: TCP
       name: {{ $port.name }}
-      {{- if eq $.Values.service.type "NodePort" -}}
+      {{ if eq $.Values.service.type "NodePort" }}
       nodePort: {{ $port.internalPort }}
-      {{- end -}}
+      {{ end }}
     {{- end -}}
     {{- end -}}
   {{- if .Values.service.sessionAffinity.enabled }}
