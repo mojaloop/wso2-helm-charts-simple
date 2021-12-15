@@ -76,9 +76,9 @@ jobs:
     <<: *defaults_working_directory
     <<: *defaults_docker_node
     steps:
-      - checkout
       - run:
           <<: *defaults_Dependencies
+      - checkout
       - run:
           <<: *defaults_environment
       - run:
