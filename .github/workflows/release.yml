@@ -21,8 +21,8 @@ jobs:
       uses: stefanprodan/helm-gh-pages@master
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        charts_dir: repo
-        charts_url: ./
+        charts_dir: .
+        charts_url: ./repo
         target_dir: repo
         branch: gh-pages
         linting: off
