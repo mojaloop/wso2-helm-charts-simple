@@ -51,6 +51,7 @@ defaults_git_identity_setup: &defaults_git_identity_setup
     echo 'export GIT_SHA1=$CIRCLE_SHA1' >> $BASH_ENV
     echo 'export BUILD_NUM=$CIRCLE_BUILD_NUM' >> $BASH_ENV
     echo "Setting BASH_ENV..."
+    cat $BASH_ENV
     source $BASH_ENV
     git config --global user.email "$GIT_CI_USER"
     git config --global user.password "$GIT_CI_PASSWORD"
