@@ -1,22 +1,22 @@
-{{- if .Values.ingress.enabled -}}
 {{- $fullName := include "self.fullname" . -}}
+{{- if .Values.ingress.apiServer.enabled -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: {{ $fullName }}-api
   labels:
 {{ include "self.labels" . | indent 4 }}
-  {{- with .Values.ingress.annotations }}
+  {{- with .Values.ingress.apiServer.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-{{- if .Values.ingress.ingressClassName }}
-  ingressClassName: {{ .Values.ingress.ingressClassName }}
+{{- if .Values.ingress.apiServer.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.apiServer.ingressClassName }}
 {{- end }}
-{{- if .Values.ingress.tls }}
+{{- if .Values.ingress.apiServer.tls }}
   tls:
-  {{- range .Values.ingress.tls }}
+  {{- range .Values.ingress.apiServer.tls }}
     - hosts:
       {{- range .hosts }}
         - {{ . | quote }}
@@ -25,7 +25,46 @@ spec:
   {{- end }}
 {{- end }}
   rules:
-  {{- range .Values.ingress.hosts }}
+  {{- range .Values.ingress.apiServer.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+        {{- range .paths }}
+          - path: {{ .path | quote }}
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: {{ .servicePort | quote }}
+        {{- end }}
+  {{- end }}
+{{- end }}  
+---
+{{- if .Values.ingress.tokenServer.enabled -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-token
+  labels:
+{{ include "self.labels" . | indent 4 }}
+  {{- with .Values.ingress.tokenServer.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+{{- if .Values.ingress.tokenServer.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.tokenServer.ingressClassName }}
+{{- end }}
+{{- if .Values.ingress.tokenServer.tls }}
+  tls:
+  {{- range .Values.ingress.tokenServer.tls }}
+    - hosts:
+      {{- range .hosts }}
+        - {{ . | quote }}
+      {{- end }}
+      secretName: {{ .secretName }}
+  {{- end }}
+{{- end }}
+  rules:
+  {{- range .Values.ingress.tokenServer.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
