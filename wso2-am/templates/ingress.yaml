@@ -1,22 +1,22 @@
 {{- $fullName := include "self.fullname" . -}}
-{{- if .Values.ingress.apiServer.enabled -}}
+{{- if .Values.ingress.apiServer.internal.enabled -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}-api
+  name: {{ $fullName }}-api-int
   labels:
 {{ include "self.labels" . | indent 4 }}
-  {{- with .Values.ingress.apiServer.annotations }}
+  {{- with .Values.ingress.apiServer.internal.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-{{- if .Values.ingress.apiServer.ingressClassName }}
-  ingressClassName: {{ .Values.ingress.apiServer.ingressClassName }}
+{{- if .Values.ingress.apiServer.internal.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.apiServer.internal.ingressClassName }}
 {{- end }}
-{{- if .Values.ingress.apiServer.tls }}
+{{- if .Values.ingress.apiServer.internal.tls }}
   tls:
-  {{- range .Values.ingress.apiServer.tls }}
+  {{- range .Values.ingress.apiServer.internal.tls }}
     - hosts:
       {{- range .hosts }}
         - {{ . | quote }}
@@ -25,7 +25,46 @@ spec:
   {{- end }}
 {{- end }}
   rules:
-  {{- range .Values.ingress.apiServer.hosts }}
+  {{- range .Values.ingress.apiServer.internal.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+        {{- range .paths }}
+          - path: {{ .path | quote }}
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: {{ .servicePort | quote }}
+        {{- end }}
+  {{- end }}
+{{- end }} 
+---
+{{- if .Values.ingress.apiServer.external.enabled -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-api-ext
+  labels:
+{{ include "self.labels" . | indent 4 }}
+  {{- with .Values.ingress.apiServer.external.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+{{- if .Values.ingress.apiServer.external.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.apiServer.external.ingressClassName }}
+{{- end }}
+{{- if .Values.ingress.apiServer.external.tls }}
+  tls:
+  {{- range .Values.ingress.apiServer.external.tls }}
+    - hosts:
+      {{- range .hosts }}
+        - {{ . | quote }}
+      {{- end }}
+      secretName: {{ .secretName }}
+  {{- end }}
+{{- end }}
+  rules:
+  {{- range .Values.ingress.apiServer.external.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
@@ -38,24 +77,24 @@ spec:
   {{- end }}
 {{- end }}  
 ---
-{{- if .Values.ingress.tokenServer.enabled -}}
+{{- if .Values.ingress.tokenServer.external.enabled -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}-token
+  name: {{ $fullName }}-token-ext
   labels:
 {{ include "self.labels" . | indent 4 }}
-  {{- with .Values.ingress.tokenServer.annotations }}
+  {{- with .Values.ingress.tokenServer.external.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-{{- if .Values.ingress.tokenServer.ingressClassName }}
-  ingressClassName: {{ .Values.ingress.tokenServer.ingressClassName }}
+{{- if .Values.ingress.tokenServer.external.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.tokenServer.external.ingressClassName }}
 {{- end }}
-{{- if .Values.ingress.tokenServer.tls }}
+{{- if .Values.ingress.tokenServer.external.tls }}
   tls:
-  {{- range .Values.ingress.tokenServer.tls }}
+  {{- range .Values.ingress.tokenServer.external.tls }}
     - hosts:
       {{- range .hosts }}
         - {{ . | quote }}
@@ -64,7 +103,46 @@ spec:
   {{- end }}
 {{- end }}
   rules:
-  {{- range .Values.ingress.tokenServer.hosts }}
+  {{- range .Values.ingress.tokenServer.external.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+        {{- range .paths }}
+          - path: {{ .path | quote }}
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: {{ .servicePort | quote }}
+        {{- end }}
+  {{- end }}
+{{- end }}
+---
+{{- if .Values.ingress.tokenServer.internal.enabled -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-token-int
+  labels:
+{{ include "self.labels" . | indent 4 }}
+  {{- with .Values.ingress.tokenServer.internal.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+{{- if .Values.ingress.tokenServer.internal.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.tokenServer.internal.ingressClassName }}
+{{- end }}
+{{- if .Values.ingress.tokenServer.internal.tls }}
+  tls:
+  {{- range .Values.ingress.tokenServer.internal.tls }}
+    - hosts:
+      {{- range .hosts }}
+        - {{ . | quote }}
+      {{- end }}
+      secretName: {{ .secretName }}
+  {{- end }}
+{{- end }}
+  rules:
+  {{- range .Values.ingress.tokenServer.internal.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:

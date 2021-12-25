@@ -85,33 +85,63 @@ copyExtHostToEtcHosts:
 
 ingress:
   apiServer:
-    enabled: false
-    annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-    hosts:
-    - host: extgw.local
-      paths:
-        - path: "/"
-          servicePort: wso2
-    tls: []
-      # - secretName: extgw-tls
-      #   hosts:
-      #     - ${ingress_host}
+    internal: 
+      enabled: false
+      annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+      hosts:
+      - host: extgw.local
+        paths:
+          - path: "/"
+            servicePort: wso2
+      tls: []
+        # - secretName: extgw-tls
+        #   hosts:
+        #     - ${ingress_host}
+    external:
+      enabled: false
+      annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+      hosts:
+      - host: extgw.local
+        paths:
+          - path: "/"
+            servicePort: wso2
+      tls: []
+        # - secretName: extgw-tls
+        #   hosts:
+        #     - ${ingress_host}
   tokenServer:
-    enabled: false
-    annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-    hosts:
-    - host: token-extgw.local
-      paths:
-        - path: "/"
-          servicePort: wso2https
-    tls: []
-      # - secretName: extgw-tls
-      #   hosts:
-      #     - ${ingress_host}
+    internal: 
+      enabled: false
+      annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+      hosts:
+      - host: token-extgw.local
+        paths:
+          - path: "/"
+            servicePort: wso2https
+      tls: []
+        # - secretName: extgw-tls
+        #   hosts:
+        #     - ${ingress_host}
+    external:
+      enabled: false
+      annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+      hosts:
+      - host: token-extgw.local
+        paths:
+          - path: "/"
+            servicePort: wso2https
+      tls: []
+        # - secretName: extgw-tls
+        #   hosts:
+        #     - ${ingress_host}
 
 
 secret:
