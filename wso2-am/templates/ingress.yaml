@@ -1,22 +1,22 @@
 {{- $fullName := include "self.fullname" . -}}
-{{- if .Values.ingress.apiServer.internal.enabled -}}
+{{- if .Values.ingress.mgmt.internal.enabled -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}-api-int
+  name: {{ $fullName }}-mgmt-int
   labels:
 {{ include "self.labels" . | indent 4 }}
-  {{- with .Values.ingress.apiServer.internal.annotations }}
+  {{- with .Values.ingress.mgmt.internal.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-{{- if .Values.ingress.apiServer.internal.ingressClassName }}
-  ingressClassName: {{ .Values.ingress.apiServer.internal.ingressClassName }}
+{{- if .Values.ingress.mgmt.internal.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.mgmt.internal.ingressClassName }}
 {{- end }}
-{{- if .Values.ingress.apiServer.internal.tls }}
+{{- if .Values.ingress.mgmt.internal.tls }}
   tls:
-  {{- range .Values.ingress.apiServer.internal.tls }}
+  {{- range .Values.ingress.mgmt.internal.tls }}
     - hosts:
       {{- range .hosts }}
         - {{ . | quote }}
@@ -25,7 +25,7 @@ spec:
   {{- end }}
 {{- end }}
   rules:
-  {{- range .Values.ingress.apiServer.internal.hosts }}
+  {{- range .Values.ingress.mgmt.internal.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
@@ -38,24 +38,24 @@ spec:
   {{- end }}
 {{- end }} 
 ---
-{{- if .Values.ingress.apiServer.external.enabled -}}
+{{- if .Values.ingress.mgmt.external.enabled -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}-api-ext
+  name: {{ $fullName }}-mgmt-ext
   labels:
 {{ include "self.labels" . | indent 4 }}
-  {{- with .Values.ingress.apiServer.external.annotations }}
+  {{- with .Values.ingress.mgmt.external.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-{{- if .Values.ingress.apiServer.external.ingressClassName }}
-  ingressClassName: {{ .Values.ingress.apiServer.external.ingressClassName }}
+{{- if .Values.ingress.mgmt.external.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.mgmt.external.ingressClassName }}
 {{- end }}
-{{- if .Values.ingress.apiServer.external.tls }}
+{{- if .Values.ingress.mgmt.external.tls }}
   tls:
-  {{- range .Values.ingress.apiServer.external.tls }}
+  {{- range .Values.ingress.mgmt.external.tls }}
     - hosts:
       {{- range .hosts }}
         - {{ . | quote }}
@@ -64,7 +64,7 @@ spec:
   {{- end }}
 {{- end }}
   rules:
-  {{- range .Values.ingress.apiServer.external.hosts }}
+  {{- range .Values.ingress.mgmt.external.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
@@ -77,24 +77,24 @@ spec:
   {{- end }}
 {{- end }}  
 ---
-{{- if .Values.ingress.tokenServer.external.enabled -}}
+{{- if .Values.ingress.data.external.enabled -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}-token-ext
+  name: {{ $fullName }}-data-ext
   labels:
 {{ include "self.labels" . | indent 4 }}
-  {{- with .Values.ingress.tokenServer.external.annotations }}
+  {{- with .Values.ingress.data.external.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-{{- if .Values.ingress.tokenServer.external.ingressClassName }}
-  ingressClassName: {{ .Values.ingress.tokenServer.external.ingressClassName }}
+{{- if .Values.ingress.data.external.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.data.external.ingressClassName }}
 {{- end }}
-{{- if .Values.ingress.tokenServer.external.tls }}
+{{- if .Values.ingress.data.external.tls }}
   tls:
-  {{- range .Values.ingress.tokenServer.external.tls }}
+  {{- range .Values.ingress.data.external.tls }}
     - hosts:
       {{- range .hosts }}
         - {{ . | quote }}
@@ -103,7 +103,7 @@ spec:
   {{- end }}
 {{- end }}
   rules:
-  {{- range .Values.ingress.tokenServer.external.hosts }}
+  {{- range .Values.ingress.data.external.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
@@ -116,24 +116,24 @@ spec:
   {{- end }}
 {{- end }}
 ---
-{{- if .Values.ingress.tokenServer.internal.enabled -}}
+{{- if .Values.ingress.data.internal.enabled -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}-token-int
+  name: {{ $fullName }}-data-int
   labels:
 {{ include "self.labels" . | indent 4 }}
-  {{- with .Values.ingress.tokenServer.internal.annotations }}
+  {{- with .Values.ingress.data.internal.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-{{- if .Values.ingress.tokenServer.internal.ingressClassName }}
-  ingressClassName: {{ .Values.ingress.tokenServer.internal.ingressClassName }}
+{{- if .Values.ingress.data.internal.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.data.internal.ingressClassName }}
 {{- end }}
-{{- if .Values.ingress.tokenServer.internal.tls }}
+{{- if .Values.ingress.data.internal.tls }}
   tls:
-  {{- range .Values.ingress.tokenServer.internal.tls }}
+  {{- range .Values.ingress.data.internal.tls }}
     - hosts:
       {{- range .hosts }}
         - {{ . | quote }}
@@ -142,7 +142,7 @@ spec:
   {{- end }}
 {{- end }}
   rules:
-  {{- range .Values.ingress.tokenServer.internal.hosts }}
+  {{- range .Values.ingress.data.internal.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:

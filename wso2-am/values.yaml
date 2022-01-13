@@ -84,7 +84,7 @@ copyExtHostToEtcHosts:
   extHostName: wso2exthostname
 
 ingress:
-  apiServer:
+  mgmt:
     internal: 
       enabled: false
       annotations: {}
@@ -113,7 +113,7 @@ ingress:
         # - secretName: extgw-tls
         #   hosts:
         #     - ${ingress_host}
-  tokenServer:
+  data:
     internal: 
       enabled: false
       annotations: {}
