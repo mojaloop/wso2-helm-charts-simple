@@ -38,12 +38,12 @@ spec:
           - path: {{ .path | quote }}
             pathType: Prefix
             backend:
-            {{- if semverCompare ">=1.19-0" $k8sVer -}}
+            {{- if semverCompare ">=1.19-0" $k8sVer }}
               service:
                 name: {{ $fullName }}
                 port:
                   name: {{ .servicePort | quote }}
-            {{- else -}}
+            {{- else }}
               serviceName: {{ $fullName }}
               servicePort: {{ .servicePort | quote }}
             {{- end }}           
@@ -89,12 +89,12 @@ spec:
           - path: {{ .path | quote }}
             pathType: Prefix
             backend:
-            {{- if semverCompare ">=1.19-0" $k8sVer -}}
+            {{- if semverCompare ">=1.19-0" $k8sVer }}
               service:
                 name: {{ $fullName }}
                 port:
                   name: {{ .servicePort | quote }}
-            {{- else -}}
+            {{- else }}
               serviceName: {{ $fullName }}
               servicePort: {{ .servicePort | quote }}
             {{- end }}           
@@ -140,12 +140,12 @@ spec:
           - path: {{ .path | quote }}
             pathType: Prefix
             backend:
-            {{- if semverCompare ">=1.19-0" $k8sVer -}}
+            {{- if semverCompare ">=1.19-0" $k8sVer }}
               service:
                 name: {{ $fullName }}
                 port:
                   name: {{ .servicePort | quote }}
-            {{- else -}}
+            {{- else }}
               serviceName: {{ $fullName }}
               servicePort: {{ .servicePort | quote }}
             {{- end }}           
@@ -191,12 +191,12 @@ spec:
           - path: {{ .path | quote }}
             pathType: Prefix
             backend:
-            {{- if semverCompare ">=1.19-0" $k8sVer -}}
+            {{- if semverCompare ">=1.19-0" $k8sVer }}
               service:
                 name: {{ $fullName }}
                 port:
                   name: {{ .servicePort | quote }}
-            {{- else -}}
+            {{- else }}
               serviceName: {{ $fullName }}
               servicePort: {{ .servicePort | quote }}
             {{- end }}           
