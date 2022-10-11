@@ -3,6 +3,15 @@ entries:
   wso2-am:
   - apiVersion: v1
     appVersion: "1.0"
+    created: "2022-10-11T22:56:48.649715914Z"
+    description: A Helm chart for Kubernetes install of wso2 API manager
+    digest: 95754850ec4da24f293a2c0146b16e086ec9eb2afd007146808adc9af45d7278
+    name: wso2-am
+    urls:
+    - https://mojaloop.github.io/wso2-helm-charts-simple/repo/wso2-am-2.3.0-beta5.tgz
+    version: 2.3.0-beta5
+  - apiVersion: v1
+    appVersion: "1.0"
     created: "2022-10-11T22:46:42.417177403Z"
     description: A Helm chart for Kubernetes install of wso2 API manager
     digest: d36b63c629bd12639bb8410f5d5681fbb38cbeae192063c5b03962c18d2a74da
@@ -182,6 +191,16 @@ entries:
     - wso2-am-2.0.2.tgz
     version: 2.0.2
   wso2-is-km:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2022-10-11T22:56:48.650489515Z"
+    description: A Helm chart for Kubernetes install of wso2 identity server with
+      key manager
+    digest: 0b686f9856000789fc2fe4445e1d71aa0af9d463876388f7654f8d15a633c79b
+    name: wso2-is-km
+    urls:
+    - https://mojaloop.github.io/wso2-helm-charts-simple/repo/wso2-is-km-2.3.0-beta5.tgz
+    version: 2.3.0-beta5
   - apiVersion: v1
     appVersion: "1.0"
     created: "2022-10-11T22:46:42.418291268Z"
@@ -382,4 +401,4 @@ entries:
     urls:
     - wso2-is-km-2.0.2.tgz
     version: 2.0.2
-generated: "2022-10-11T22:46:42.415386499Z"
+generated: "2022-10-11T22:56:48.648700414Z"
