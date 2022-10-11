@@ -36,6 +36,7 @@ spec:
         paths:
         {{- range .paths }}
           - path: {{ .path | quote }}
+            pathType: Prefix
             backend:
             {{- if semverCompare ">=1.19-0" $k8sVer -}}
               service:
