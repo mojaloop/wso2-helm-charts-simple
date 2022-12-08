@@ -1,6 +1,11 @@
 {{- $fullName := include "self.fullname" . -}}
+{{- $k8sVer := .Capabilities.KubeVersion.GitVersion -}}
 {{- if .Values.ingress.mgmt.internal.enabled -}}
+{{- if semverCompare ">=1.19-0" $k8sVer -}}
+apiVersion: networking.k8s.io/v1
+{{- else -}}
 apiVersion: extensions/v1beta1
+{{- end }}
 kind: Ingress
 metadata:
   name: {{ $fullName }}-mgmt-int
@@ -31,15 +36,27 @@ spec:
         paths:
         {{- range .paths }}
           - path: {{ .path | quote }}
+            pathType: Prefix
             backend:
+            {{- if semverCompare ">=1.19-0" $k8sVer }}
+              service:
+                name: {{ $fullName }}
+                port:
+                  name: {{ .servicePort | quote }}
+            {{- else }}
               serviceName: {{ $fullName }}
               servicePort: {{ .servicePort | quote }}
+            {{- end }}           
         {{- end }}
   {{- end }}
 {{- end }} 
 ---
 {{- if .Values.ingress.mgmt.external.enabled -}}
+{{- if semverCompare ">=1.19-0" $k8sVer -}}
+apiVersion: networking.k8s.io/v1
+{{- else -}}
 apiVersion: extensions/v1beta1
+{{- end }}
 kind: Ingress
 metadata:
   name: {{ $fullName }}-mgmt-ext
@@ -70,15 +87,27 @@ spec:
         paths:
         {{- range .paths }}
           - path: {{ .path | quote }}
+            pathType: Prefix
             backend:
+            {{- if semverCompare ">=1.19-0" $k8sVer }}
+              service:
+                name: {{ $fullName }}
+                port:
+                  name: {{ .servicePort | quote }}
+            {{- else }}
               serviceName: {{ $fullName }}
               servicePort: {{ .servicePort | quote }}
+            {{- end }}           
         {{- end }}
   {{- end }}
 {{- end }}  
 ---
 {{- if .Values.ingress.data.external.enabled -}}
+{{- if semverCompare ">=1.19-0" $k8sVer -}}
+apiVersion: networking.k8s.io/v1
+{{- else -}}
 apiVersion: extensions/v1beta1
+{{- end }}
 kind: Ingress
 metadata:
   name: {{ $fullName }}-data-ext
@@ -109,15 +138,27 @@ spec:
         paths:
         {{- range .paths }}
           - path: {{ .path | quote }}
+            pathType: Prefix
             backend:
+            {{- if semverCompare ">=1.19-0" $k8sVer }}
+              service:
+                name: {{ $fullName }}
+                port:
+                  name: {{ .servicePort | quote }}
+            {{- else }}
               serviceName: {{ $fullName }}
               servicePort: {{ .servicePort | quote }}
+            {{- end }}           
         {{- end }}
   {{- end }}
 {{- end }}
 ---
 {{- if .Values.ingress.data.internal.enabled -}}
+{{- if semverCompare ">=1.19-0" $k8sVer -}}
+apiVersion: networking.k8s.io/v1
+{{- else -}}
 apiVersion: extensions/v1beta1
+{{- end }}
 kind: Ingress
 metadata:
   name: {{ $fullName }}-data-int
@@ -148,9 +189,17 @@ spec:
         paths:
         {{- range .paths }}
           - path: {{ .path | quote }}
+            pathType: Prefix
             backend:
+            {{- if semverCompare ">=1.19-0" $k8sVer }}
+              service:
+                name: {{ $fullName }}
+                port:
+                  name: {{ .servicePort | quote }}
+            {{- else }}
               serviceName: {{ $fullName }}
               servicePort: {{ .servicePort | quote }}
+            {{- end }}           
         {{- end }}
   {{- end }}
 {{- end }}
